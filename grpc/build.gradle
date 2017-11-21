@@ -1,0 +1,62 @@
+plugins {
+    id 'com.google.protobuf' version '0.8.3'
+    id 'java'
+    id 'idea'
+}
+
+sourceCompatibility = 1.8
+
+dependencies {
+    compile 'org.hdrhistogram:HdrHistogram:2.1.10'
+    compile "com.google.api.grpc:proto-google-common-protos:0.1.9"
+    compile "io.grpc:grpc-netty:1.7.0"
+    compile "io.grpc:grpc-protobuf:1.7.0"
+    compile "io.grpc:grpc-stub:1.7.0"
+    compile 'io.projectreactor:reactor-core:3.1.1.RELEASE'
+
+    testCompile "io.grpc:grpc-testing:1.7.0"
+    testCompile "junit:junit:4.12"
+    testCompile "org.mockito:mockito-core:1.9.5"
+}
+sourceSets {
+    main {
+        proto { srcDir 'src/main/proto' }
+    }
+
+    test {
+        proto { srcDir 'src/test/proto' }
+    }
+}
+
+protobuf {
+    generatedFilesBaseDir = "${projectDir}/src/generated"
+
+    plugins {
+        protoc {
+            artifact = 'com.google.protobuf:protoc:3.4.0'
+        }
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.7.0"
+        }
+        generateProtoTasks {
+            ofSourceSet('main')*.plugins {
+                grpc {}
+            }
+        }
+    }
+}
+
+idea {
+    module {
+        sourceDirs += file("src/main/proto")
+        sourceDirs += file("src/generated/main/java")
+        sourceDirs += file("src/generated/main/grpc")
+
+        generatedSourceDirs += file('src/generated/main/java')
+        generatedSourceDirs += file('src/generated/main/grpc')
+    }
+}
+
+clean {
+    delete 'src/generated'
+}
