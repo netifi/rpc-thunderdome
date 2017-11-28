@@ -1,4 +1,4 @@
-# ip-thunderdomec
+# ipc-thunderdome
 A comparison between [Netifi Proteus](https://github.com/netifi/proteus-java) and other commonly used IPC frameworks.
 
 ## Bugs and Feedback
