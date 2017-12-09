@@ -19,7 +19,11 @@ public class GrpcServer {
   public static void main(String... args) throws Exception {
     System.out.println("starting server");
   
-    io.grpc.Server start = ServerBuilder.forPort(8080)
+  
+    String host = System.getProperty("host", "127.0.0.1");
+    int port = Integer.getInteger("port", 8001);
+  
+    io.grpc.Server start = ServerBuilder.forPort(port)
                                .addService(new DefaultService())
                                .build()
                                .start();

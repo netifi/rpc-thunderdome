@@ -1,4 +1,4 @@
-rootProject.name = 'rtc-thunderdome'
+rootProject.name = 'rpc-thunderdome'
 include 'grpc'
 include 'proteus'
 include 'ratpack'

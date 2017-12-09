@@ -13,13 +13,14 @@ import reactor.core.publisher.Mono;
 
 public class ProteusServer {
   public static void main(String... args) {
-    System.out.println("starting server");
+    String host = System.getProperty("host", "127.0.0.1");
+    int port = Integer.getInteger("port", 8001);
     RSocketFactory.receive()
         .acceptor(
             (setup, sendingSocket) -> {
               return Mono.just(new SimpleServiceServer(new DefaultService()));
             })
-        .transport(TcpServerTransport.create("127.0.0.1", 8080))
+        .transport(TcpServerTransport.create(host, port))
         .start()
         .block()
         .onClose()

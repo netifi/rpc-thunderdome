@@ -16,11 +16,16 @@ public class RatpackRequestReply {
 
   public static void main(String... args) throws Exception {
     int warmup = 1_000_000;
-    int count = 1_000_000;
+
+    int count = Integer.getInteger("count", 1_000_000);
+    int concurrency = Integer.getInteger("concurrency", 16);
+
+    String host = System.getProperty("host", "127.0.0.1");
+    int port = Integer.getInteger("port", 5050);
 
     ObjectMapper mapper = new ObjectMapper();
 
-    HttpClient client = HttpClient.create("127.0.0.1", 5050);
+    HttpClient client = HttpClient.create(host, port);
 
     System.out.println("starting warmup...");
     Flux.range(0, warmup)
@@ -113,7 +118,8 @@ public class RatpackRequestReply {
                                       histogram.recordValue(System.nanoTime() - s);
                                     }));
                       });
-            })
+            },
+            concurrency)
         .blockLast();
     histogram.outputPercentileDistribution(System.out, 1000.0d);
     double completedMillis = (System.nanoTime() - start) / 1_000_000d;
@@ -123,33 +129,3 @@ public class RatpackRequestReply {
     System.out.println();
   }
 }
-
-/*
- EmbeddedApp.fromHandlers(chain -> {
-       chain
-         .get("simpleGet", ctx -> {
-           PublicAddress address = ctx.get(PublicAddress.class);         //find local ip address
-           HttpClient httpClient = ctx.get(HttpClient.class);            //get httpClient
-           URI uri = address.get("httpClientGet");
-
-           httpClient.get(uri).then(response ->
-               ctx.render(response.getBody().getText())  //Render the response from the httpClient GET request
-           );
-         })
-         .get("simplePost", ctx -> {
-           PublicAddress address = ctx.get(PublicAddress.class);  //find local ip address
-           HttpClient httpClient = ctx.get(HttpClient.class);     //get httpClient
-           URI uri = address.get("httpClientPost");
-
-           httpClient.post(uri, s -> s.getBody().text("foo")).then(response ->
-             ctx.render(response.getBody().getText())   //Render the response from the httpClient POST request
-           );
-         })
-         .get("httpClientGet", ctx -> ctx.render("httpClientGet"))
-         .post("httpClientPost", ctx -> ctx.render(ctx.getRequest().getBody().map(b -> b.getText().toUpperCase())));
-     }
-   ).test(testHttpClient -> {
-     assertEquals("httpClientGet", testHttpClient.getText("/simpleGet"));
-     assertEquals("FOO", testHttpClient.getText("/simplePost"));
-   });
-*/

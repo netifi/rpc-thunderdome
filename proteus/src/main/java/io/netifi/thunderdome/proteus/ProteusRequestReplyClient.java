@@ -12,19 +12,24 @@ import java.time.Duration;
 
 public class ProteusRequestReplyClient {
   public static void main(String... args) {
+
+    String host = System.getProperty("host", "127.0.0.1");
+    int port = Integer.getInteger("port", 8001);
+    int concurrency = Integer.getInteger("concurrency", 16);
+
     int warmup = 1_000_000;
     int count = 1_000_000;
-    
-      RSocket rSocket =
-          RSocketFactory.connect()
-              .keepAlive(Duration.ofSeconds(1), Duration.ofSeconds(5), 1)
-              .transport(TcpClientTransport.create("127.0.0.1", 8080))
-              .start()
-              .block();
-    
-      SimpleServiceClient client = new SimpleServiceClient(rSocket);
-    
-      System.out.println("starting warmup...");
+
+    RSocket rSocket =
+        RSocketFactory.connect()
+            .keepAlive(Duration.ofSeconds(1), Duration.ofSeconds(5), 1)
+            .transport(TcpClientTransport.create(host, port))
+            .start()
+            .block();
+
+    SimpleServiceClient client = new SimpleServiceClient(rSocket);
+
+    System.out.println("starting warmup...");
     Flux.range(0, warmup)
         .flatMap(
             integer -> {
@@ -43,14 +48,15 @@ public class ProteusRequestReplyClient {
             integer -> {
               long s = System.nanoTime();
               SimpleRequest request = SimpleRequest.newBuilder().setRequestMessage("hello").build();
-                
-                return client
+
+              return client
                   .requestReply(request)
                   .doFinally(
                       simpleResponse -> {
                         histogram.recordValue(System.nanoTime() - s);
                       });
-            }, 16)
+            },
+            concurrency)
         .blockLast();
     histogram.outputPercentileDistribution(System.out, 1000.0d);
     double completedMillis = (System.nanoTime() - start) / 1_000_000d;

@@ -14,13 +14,16 @@ public class GrpcRequestReplyClient {
     int warmup = 10_000;
     int count = 1_000_000;
 
+    String host = System.getProperty("host", "127.0.0.1");
+    int port = Integer.getInteger("port", 8001);
+
     ManagedChannel managedChannel =
-        ManagedChannelBuilder.forAddress("localhost", 8080).usePlaintext(true).build();
+        ManagedChannelBuilder.forAddress(host, port).usePlaintext(true).build();
     SimpleServiceGrpc.SimpleServiceFutureStub simpleService =
         SimpleServiceGrpc.newFutureStub(managedChannel);
 
     CountDownLatch warmupLatch = new CountDownLatch(warmup);
-  
+
     ForkJoinPool executorService = ForkJoinPool.commonPool();
     System.out.println("starting warmup...");
 
@@ -31,7 +34,7 @@ public class GrpcRequestReplyClient {
 
     warmupLatch.await();
     System.out.println("warmup complete");
-    
+
     System.out.println("starting test - sending " + count);
     CountDownLatch latch = new CountDownLatch(count);
     Histogram histogram = new Histogram(3600000000000L, 3);
@@ -48,7 +51,7 @@ public class GrpcRequestReplyClient {
               },
               executorService);
     }
-    
+
     double completedMillis = (System.nanoTime() - start) / 1_000_000d;
     double rps = count / ((System.nanoTime() - start) / 1_000_000_000d);
     System.out.println("test complete in " + completedMillis + "ms");
