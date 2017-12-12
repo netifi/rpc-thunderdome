@@ -1,9 +1,9 @@
-# ipc-thunderdome
-A comparison between [Netifi Proteus](https://github.com/netifi/proteus-java) and other commonly used IPC frameworks.
+# rpc-thunderdome
+A comparison between [Proteus RPC](https://github.com/netifi/proteus-java) and other commonly used RPC frameworks.
 
 ## Bugs and Feedback
 
-For bugs, questions and discussions please use the [Github Issues](https://github.com/netifi/ipc-thunderdome/issues).
+For bugs, questions and discussions please use the [Github Issues](https://github.com/netifi/rpc-thunderdome/issues).
 
 ## License
 Copyright 2017 Netifi Inc.
