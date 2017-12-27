@@ -1,8 +1,22 @@
 # rpc-thunderdome
 A comparison between [Proteus RPC](https://github.com/netifi/proteus-java) and other commonly used RPC frameworks.
 
-## Bugs and Feedback
+## Prerequisites
+RPC Thunderdome requires the following:
 
+1. Java Development Kit 8: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+
+2. Protocol Buffers Compiler
+
+    You can download the compiler from here: https://github.com/google/protobuf/releases
+    
+    OR
+    
+    If you are on a mac using homebrew you can install it with the following command:
+    
+        $ brew install protobuf
+        
+## Bugs and Feedback
 For bugs, questions and discussions please use the [Github Issues](https://github.com/netifi/rpc-thunderdome/issues).
 
 ## License
