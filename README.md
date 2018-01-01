@@ -6,7 +6,7 @@ RPC Thunderdome requires the following:
 
 1. Java Development Kit 8: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
-2. Protocol Buffers Compiler
+2. Protocol Buffers Compiler - Requires Protobuf 3.5.1
 
     You can download the compiler from here: https://github.com/google/protobuf/releases
     
