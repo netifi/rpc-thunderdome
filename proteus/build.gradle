@@ -7,9 +7,11 @@ plugins {
 sourceCompatibility = 1.8
 
 dependencies {
+    compile 'io.netifi.proteus:frames:0.4.0'
+    compile 'io.netifi.proteus:auth:0.4.0'
+    compile 'io.netifi.proteus:core:0.4.0'
     compile 'org.hdrhistogram:HdrHistogram:2.1.10'
-    compile 'io.netifi.proteus:proteus-core:0.2.4'
-    compile 'com.google.protobuf:protobuf-java:3.4.0'
+    compile 'com.google.protobuf:protobuf-java:3.5.0'
     compile 'io.rsocket:rsocket-transport-netty:0.9.16'
 }
 
@@ -28,10 +30,10 @@ protobuf {
 
     plugins {
         protoc {
-            artifact = 'com.google.protobuf:protoc:3.4.0'
+            artifact = 'com.google.protobuf:protoc:3.5.0'
         }
         proteus {
-            artifact = 'io.netifi.proteus:proteus-java:0.2.4'
+            artifact = 'io.netifi.proteus:protobuf-rpc:0.4.0'
         }
         generateProtoTasks {
             ofSourceSet('main')*.plugins {

@@ -42,7 +42,7 @@ public final class SimpleServiceProto {
       "mpleRequest\032!.io.netifi.testing.SimpleRe" +
       "sponse\"\000\022K\n\rFireAndForget\022 .io.netifi.te" +
       "sting.SimpleRequest\032\026.google.protobuf.Em" +
-      "pty\"\000\022X\n\rRequestStream\022 .io.netifi.testi",
+      "pty\"\000\022X\n\rRequestStream\022 .io.netifi.testi" +
       "ng.SimpleRequest\032!.io.netifi.testing.Sim" +
       "pleResponse\"\0000\001\022i\n\036StreamingRequestSingl" +
       "eResponse\022 .io.netifi.testing.SimpleRequ" +

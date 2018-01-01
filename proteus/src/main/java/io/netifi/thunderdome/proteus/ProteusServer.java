@@ -30,7 +30,7 @@ public class ProteusServer {
 
   static class DefaultService extends AbstractProteusService implements SimpleService {
     @Override
-    public Mono<SimpleResponse> requestReply(SimpleRequest message) {
+    public Mono<SimpleResponse> requestReply(SimpleRequest message, io.netty.buffer.ByteBuf metadata) {
       return Mono.create(
           sink -> {
             String requestMessage = message.getRequestMessage();
@@ -41,22 +41,22 @@ public class ProteusServer {
     }
 
     @Override
-    public Mono<Void> fireAndForget(SimpleRequest message) {
+    public Mono<Void> fireAndForget(SimpleRequest message, io.netty.buffer.ByteBuf metadata) {
       return null;
     }
 
     @Override
-    public Flux<SimpleResponse> requestStream(SimpleRequest message) {
+    public Flux<SimpleResponse> requestStream(SimpleRequest message, io.netty.buffer.ByteBuf metadata) {
       return null;
     }
 
     @Override
-    public Mono<SimpleResponse> streamingRequestSingleResponse(Publisher<SimpleRequest> messages) {
+    public Mono<SimpleResponse> streamingRequestSingleResponse(Publisher<SimpleRequest> messages, io.netty.buffer.ByteBuf metadata) {
       return null;
     }
 
     @Override
-    public Flux<SimpleResponse> streamingRequestAndResponse(Publisher<SimpleRequest> messages) {
+    public Flux<SimpleResponse> streamingRequestAndResponse(Publisher<SimpleRequest> messages, io.netty.buffer.ByteBuf metadata) {
       return null;
     }
   }

@@ -3,7 +3,7 @@ package io.netifi.testing.protobuf;
 /**
  */
 @javax.annotation.Generated(
-    value = "by Proteus proto compiler (version 0.2.4)",
+    value = "by Proteus proto compiler (version 0.4.0)",
     comments = "Source: io/netifi/thunderdome/proteus/simpleservice.proto")
 public interface SimpleService {
   int NAMESPACE_ID = 298608432;
@@ -19,33 +19,33 @@ public interface SimpleService {
    * Request / Response
    * </pre>
    */
-  reactor.core.publisher.Mono<io.netifi.testing.protobuf.SimpleResponse> requestReply(io.netifi.testing.protobuf.SimpleRequest message);
+  reactor.core.publisher.Mono<io.netifi.testing.protobuf.SimpleResponse> requestReply(io.netifi.testing.protobuf.SimpleRequest message, io.netty.buffer.ByteBuf metadata);
 
   /**
    * <pre>
    * Fire-and-Forget
    * </pre>
    */
-  reactor.core.publisher.Mono<Void> fireAndForget(io.netifi.testing.protobuf.SimpleRequest message);
+  reactor.core.publisher.Mono<Void> fireAndForget(io.netifi.testing.protobuf.SimpleRequest message, io.netty.buffer.ByteBuf metadata);
 
   /**
    * <pre>
    * Single Request / Streaming Response
    * </pre>
    */
-  reactor.core.publisher.Flux<io.netifi.testing.protobuf.SimpleResponse> requestStream(io.netifi.testing.protobuf.SimpleRequest message);
+  reactor.core.publisher.Flux<io.netifi.testing.protobuf.SimpleResponse> requestStream(io.netifi.testing.protobuf.SimpleRequest message, io.netty.buffer.ByteBuf metadata);
 
   /**
    * <pre>
    * Streaming Request / Single Response
    * </pre>
    */
-  reactor.core.publisher.Mono<io.netifi.testing.protobuf.SimpleResponse> streamingRequestSingleResponse(org.reactivestreams.Publisher<io.netifi.testing.protobuf.SimpleRequest> messages);
+  reactor.core.publisher.Mono<io.netifi.testing.protobuf.SimpleResponse> streamingRequestSingleResponse(org.reactivestreams.Publisher<io.netifi.testing.protobuf.SimpleRequest> messages, io.netty.buffer.ByteBuf metadata);
 
   /**
    * <pre>
    * Streaming Request / Streaming Response
    * </pre>
    */
-  reactor.core.publisher.Flux<io.netifi.testing.protobuf.SimpleResponse> streamingRequestAndResponse(org.reactivestreams.Publisher<io.netifi.testing.protobuf.SimpleRequest> messages);
+  reactor.core.publisher.Flux<io.netifi.testing.protobuf.SimpleResponse> streamingRequestAndResponse(org.reactivestreams.Publisher<io.netifi.testing.protobuf.SimpleRequest> messages, io.netty.buffer.ByteBuf metadata);
 }

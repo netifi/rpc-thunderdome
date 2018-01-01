@@ -42,7 +42,7 @@ public final class SimpleServiceProto {
       "tifi.testing.SimpleRequest\032!.io.netifi.t" +
       "esting.SimpleResponse\"\000\022K\n\rFireAndForget" +
       "\022 .io.netifi.testing.SimpleRequest\032\026.goo" +
-      "gle.protobuf.Empty\"\000\022X\n\rRequestStream\022 .",
+      "gle.protobuf.Empty\"\000\022X\n\rRequestStream\022 ." +
       "io.netifi.testing.SimpleRequest\032!.io.net" +
       "ifi.testing.SimpleResponse\"\0000\001\022i\n\036Stream" +
       "ingRequestSingleResponse\022 .io.netifi.tes" +

@@ -1,4 +1,5 @@
 # Proteus RPC
+Requires Protobuf 3.5.1
 
 ### 92 megs
 `java  -Xmx92m -Xms92m -XX:+AlwaysPreTouch -XX:+UseStringDeduplication -verbose:gc -Dhost=172.16.0.6  -Dcount=100000000 -Dconcurrency=192  -Dthreads=16 -cp ./proteus-1.0.0-all.jar io.netifi.thunderdome.proteus.MultithreadedProteusRequestReplyClient`
