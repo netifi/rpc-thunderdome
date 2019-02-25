@@ -11,6 +11,8 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.DefaultThreadFactory;
 import org.HdrHistogram.Histogram;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
@@ -19,6 +21,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadFactory;
 
 public class MultithreadedGrpcRequestReplyClient {
+  private static final Logger logger = LogManager.getLogger(MultithreadedGrpcRequestReplyClient.class);
+
   public static void main(String... args) throws Exception {
     String host = System.getProperty("host", "127.0.0.1");
     int port = Integer.getInteger("port", 8001);
@@ -39,20 +43,20 @@ public class MultithreadedGrpcRequestReplyClient {
     }
 
     Histogram histogram = new Histogram(3600000000000L, 3);
-    System.out.println("starting test - sending " + count);
+    logger.info("starting test - sending {}", count);
     CountDownLatch latch = new CountDownLatch(threads);
     long start = System.nanoTime();
     Flux.range(1, threads)
         .flatMap(
             i -> {
-              System.out.println("start thread -> " + i);
+              logger.info("start thread -> {}", i);
               ManagedChannel managedChannel =
                   NettyChannelBuilder.forAddress(host, port)
                       .eventLoopGroup(worker)
                       .channelType(channel)
                       .directExecutor()
                       .flowControlWindow(NettyChannelBuilder.DEFAULT_FLOW_CONTROL_WINDOW)
-                      .usePlaintext(true)
+                      .usePlaintext()
                       .build();
 
               SimpleServiceGrpc.SimpleServiceStub simpleService =
@@ -76,9 +80,8 @@ public class MultithreadedGrpcRequestReplyClient {
     histogram.outputPercentileDistribution(System.out, 1000.0d);
     double completedMillis = (System.nanoTime() - start) / 1_000_000d;
     double rps = count / ((System.nanoTime() - start) / 1_000_000_000d);
-    System.out.println("test complete in " + completedMillis + "ms");
-    System.out.println("test rps " + rps);
-    System.out.println();
+    logger.info("test complete in {} ms", completedMillis);
+    logger.info("test rps {}", rps);
   }
 
   private static void execute(

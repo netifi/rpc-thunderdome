@@ -1,0 +1,56 @@
+plugins {
+    id 'com.google.protobuf' version '0.8.7'
+    id 'idea'
+}
+
+dependencies {
+    compile "org.hdrhistogram:HdrHistogram:$hdrHistogramVersion"
+    compile "io.rsocket:rsocket-transport-netty:$rsocketVersion"
+    compile "com.google.protobuf:protobuf-java:$protobufVersion"
+    compile("io.rsocket.rpc:rsocket-rpc-core:$rsocketRpcVersion") {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }
+}
+
+sourceSets {
+    main {
+        proto { srcDir 'src/main/proto' }
+    }
+
+    test {
+        proto { srcDir 'src/test/proto' }
+    }
+}
+
+protobuf {
+    generatedFilesBaseDir = "${projectDir}/src/generated"
+
+    protoc {
+        artifact = "com.google.protobuf:protoc:$protobufVersion"
+    }
+    plugins {
+        rsocketRpc {
+            artifact = "io.rsocket.rpc:rsocket-rpc-protobuf:$rsocketRpcVersion"
+        }
+    }
+    generateProtoTasks {
+        ofSourceSet('main')*.plugins {
+            rsocketRpc {}
+        }
+    }
+}
+
+idea {
+    module {
+        sourceDirs += file("src/main/proto")
+        sourceDirs += file("src/generated/main/java")
+        sourceDirs += file("src/generated/main/rsocketRpc")
+
+        generatedSourceDirs += file('src/generated/main/java')
+        generatedSourceDirs += file('src/generated/main/rsocketRpc')
+    }
+}
+
+clean {
+    delete 'src/generated/main'
+}

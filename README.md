@@ -1,5 +1,5 @@
 # rpc-thunderdome
-A comparison between [Proteus RPC](https://github.com/netifi/proteus-java) and other commonly used RPC frameworks.
+A comparison between [RSocket RPC](https://github.com/rsocket/rsocket-rpc-java) and other commonly used RPC frameworks.
 
 ## Prerequisites
 RPC Thunderdome requires the following:
