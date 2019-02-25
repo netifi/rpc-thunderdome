@@ -10,12 +10,16 @@ import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.concurrent.DefaultThreadFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.ThreadFactory;
 
 public class GrpcServer {
+  private static final Logger logger = LogManager.getLogger(GrpcServer.class);
+
   public static void main(String... args) throws Exception {
-    System.out.println("starting server");
+    logger.info("starting server");
 
     String host = System.getProperty("host", "0.0.0.0");
     int port = Integer.getInteger("port", 8001);
@@ -45,7 +49,7 @@ public class GrpcServer {
     io.grpc.Server start = builder.build();
     start.start();
 
-    System.out.println("server started");
+    logger.info("server started");
     start.awaitTermination();
   }
 

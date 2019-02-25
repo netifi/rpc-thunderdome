@@ -1,23 +1,20 @@
 plugins {
-    id 'com.google.protobuf' version '0.8.3'
-    id 'java'
+    id 'com.google.protobuf' version '0.8.7'
     id 'idea'
 }
 
-sourceCompatibility = 1.8
-
 dependencies {
-    compile 'org.hdrhistogram:HdrHistogram:2.1.10'
-    compile "com.google.api.grpc:proto-google-common-protos:0.1.9"
-    compile "io.grpc:grpc-netty:1.8.0"
-    compile 'io.netty:netty-transport-native-epoll:4.1.16.Final'
-    compile "io.grpc:grpc-protobuf:1.8.0"
-    compile "io.grpc:grpc-stub:1.8.0"
-    compile 'io.projectreactor:reactor-core:3.1.1.RELEASE'
+    compile "org.hdrhistogram:HdrHistogram:$hdrHistogramVersion"
+    compile "com.google.api.grpc:proto-google-common-protos:$grpcCommonsVersion"
+    compile "io.grpc:grpc-netty:$grpcVersion"
+    compile "io.netty:netty-transport-native-epoll:$nettyEpollVersion"
+    compile "io.grpc:grpc-protobuf:$grpcVersion"
+    compile "io.grpc:grpc-stub:$grpcVersion"
+    compile "io.projectreactor:reactor-core:$reactorCoreVersion"
 
-    testCompile "io.grpc:grpc-testing:1.7.0"
-    testCompile "junit:junit:4.12"
-    testCompile "org.mockito:mockito-core:1.9.5"
+    testCompile "io.grpc:grpc-testing:$grpcVersion"
+    testCompile "junit:junit:$junitVersion"
+    testCompile "org.mockito:mockito-core:$mockitoVersion"
 }
 sourceSets {
     main {
@@ -32,12 +29,13 @@ sourceSets {
 protobuf {
     generatedFilesBaseDir = "${projectDir}/src/generated"
 
+    protoc {
+        artifact = "com.google.protobuf:protoc:$protobufVersion"
+    }
+
     plugins {
-        protoc {
-            artifact = 'com.google.protobuf:protoc:3.4.0'
-        }
         grpc {
-            artifact = "io.grpc:protoc-gen-grpc-java:1.7.0"
+            artifact = "io.grpc:protoc-gen-grpc-java:$grpcVersion"
         }
         generateProtoTasks {
             ofSourceSet('main')*.plugins {

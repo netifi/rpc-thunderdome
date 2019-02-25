@@ -5,23 +5,22 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.1"
+        classpath "com.github.jengelman.gradle.plugins:shadow:4.0.3"
     }
 }
 
 plugins {
-    id 'com.gradle.build-scan' version '1.8'
+    id 'com.gradle.build-scan' version '2.1'
 }
 
 buildScan {
-    licenseAgreementUrl = 'https://gradle.com/terms-of-service'
-    licenseAgree = 'yes'
+    termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+    termsOfServiceAgree = 'yes'
     publishAlways()
 }
 
 allprojects {
     repositories {
-        maven { url 'https://dl.bintray.com/netifi/netifi-oss/' }
         jcenter()
         mavenCentral()
     }
@@ -31,8 +30,27 @@ subprojects {
     apply plugin: "com.github.johnrengelman.shadow"
     apply plugin: 'java'
 
-    dependencies {
-        compile 'org.slf4j:slf4j-simple:1.7.25'
+    ext {
+        protobufVersion = '3.6.1'
+        rsocketRpcVersion = '0.2.13'
+        rsocketVersion = '0.11.16'
+        hdrHistogramVersion = '2.1.11'
+        log4jVersion = '2.11.2'
+        reactorNettyVersion ='0.8.5.RELEASE'
+        grpcCommonsVersion='1.14.0'
+        grpcVersion='1.18.0'
+        nettyEpollVersion='4.1.33.Final'
+        reactorCoreVersion='3.2.6.RELEASE'
+        junitVersion = '4.12'
+        mockitoVersion = '1.10.19'
     }
 
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    dependencies {
+        compile "org.apache.logging.log4j:log4j-api:$log4jVersion"
+        compile "org.apache.logging.log4j:log4j-core:$log4jVersion"
+        compile "org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion"
+    }
 }

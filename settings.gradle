@@ -1,4 +1,4 @@
 rootProject.name = 'rpc-thunderdome'
 include 'grpc'
-include 'proteus'
+include 'rsocket-rpc'
 include 'ratpack'
