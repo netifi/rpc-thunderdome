@@ -20,7 +20,7 @@ public class RSocketRpcRequestReplyClient {
 
     String host = System.getProperty("host", "127.0.0.1");
     int port = Integer.getInteger("port", 8001);
-    int concurrency = Integer.getInteger("concurrency", 16);
+    int concurrency = Integer.getInteger("concurrency", 64);
 
     int warmup = 1_000_000;
     int count = 1_000_000;
