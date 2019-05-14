@@ -2,6 +2,7 @@ package io.netifi.thunderdome.rsocketrpc;
 
 import io.netifi.testing.protobuf.SimpleRequest;
 import io.netifi.testing.protobuf.SimpleServiceClient;
+import io.rsocket.Frame;
 import io.rsocket.RSocket;
 import io.rsocket.RSocketFactory;
 import io.rsocket.transport.netty.client.TcpClientTransport;
@@ -26,6 +27,7 @@ public class RSocketRpcRequestReplyClient {
 
     RSocket rSocket =
         RSocketFactory.connect()
+            .frameDecoder(Frame::retain)
             .keepAlive(Duration.ofSeconds(1), Duration.ofSeconds(5), 1)
             .transport(TcpClientTransport.create(host, port))
             .start()

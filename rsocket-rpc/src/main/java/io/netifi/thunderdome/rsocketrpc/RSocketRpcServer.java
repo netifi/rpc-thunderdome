@@ -5,6 +5,7 @@ import io.netifi.testing.protobuf.SimpleRequest;
 import io.netifi.testing.protobuf.SimpleResponse;
 import io.netifi.testing.protobuf.SimpleService;
 import io.netifi.testing.protobuf.SimpleServiceServer;
+import io.rsocket.Frame;
 import io.rsocket.RSocketFactory;
 import io.rsocket.transport.netty.server.TcpServerTransport;
 import org.apache.logging.log4j.LogManager;
@@ -22,9 +23,12 @@ public class RSocketRpcServer {
     String host = System.getProperty("host", "127.0.0.1");
     int port = Integer.getInteger("port", 8001);
     RSocketFactory.receive()
+        .frameDecoder(Frame::retain)
         .acceptor(
-            (setup, sendingSocket) -> Mono.just(
-                new SimpleServiceServer(new DefaultService(), Optional.empty(),Optional.empty())))
+            (setup, sendingSocket) ->
+                Mono.just(
+                    new SimpleServiceServer(
+                        new DefaultService(), Optional.empty(), Optional.empty())))
         .transport(TcpServerTransport.create(host, port))
         .start()
         .block()

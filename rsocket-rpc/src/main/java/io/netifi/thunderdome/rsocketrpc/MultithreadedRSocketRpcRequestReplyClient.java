@@ -2,6 +2,7 @@ package io.netifi.thunderdome.rsocketrpc;
 
 import io.netifi.testing.protobuf.SimpleRequest;
 import io.netifi.testing.protobuf.SimpleServiceClient;
+import io.rsocket.Frame;
 import io.rsocket.RSocket;
 import io.rsocket.RSocketFactory;
 import io.rsocket.transport.netty.client.TcpClientTransport;
@@ -16,7 +17,8 @@ import java.time.Duration;
 import java.util.concurrent.CountDownLatch;
 
 public class MultithreadedRSocketRpcRequestReplyClient {
-  private static final Logger logger = LogManager.getLogger(MultithreadedRSocketRpcRequestReplyClient.class);
+  private static final Logger logger =
+      LogManager.getLogger(MultithreadedRSocketRpcRequestReplyClient.class);
 
   public static void main(String... args) {
 
@@ -36,9 +38,10 @@ public class MultithreadedRSocketRpcRequestReplyClient {
             i -> {
               return Mono.fromRunnable(
                       () -> {
-                        logger.info("start thread -> {}" ,i);
+                        logger.info("start thread -> {}", i);
                         RSocket rSocket =
                             RSocketFactory.connect()
+                                .frameDecoder(Frame::retain)
                                 .keepAlive(Duration.ofSeconds(1), Duration.ofSeconds(5), 1)
                                 .transport(TcpClientTransport.create(host, port))
                                 .start()
@@ -76,7 +79,7 @@ public class MultithreadedRSocketRpcRequestReplyClient {
     histogram.outputPercentileDistribution(System.out, 1000.0d);
     double completedMillis = (System.nanoTime() - start) / 1_000_000d;
     double rps = count / ((System.nanoTime() - start) / 1_000_000_000d);
-    logger.info("test complete in {} ms",completedMillis);
+    logger.info("test complete in {} ms", completedMillis);
     logger.info("test rps {}", rps);
   }
 }
